@@ -8,7 +8,7 @@ onMounted(async () => {
   const UPDATED_SINCE = '2024-05-01'
 
   try {
-    console.log(`${NASA_API_URL}projects?api_key=${API_KEY}&updated_since=${UPDATED_SINCE}`)
+    console.log(`${process.env.NASA_API_URL}projects?api_key=${process.env.API_KEY}&updated_since=${UPDATED_SINCE}`)
     const response = await fetch(`/api/projects?updated_since=${UPDATED_SINCE}&page=${1}&limit=${10}`);
     data.value = await response.json()
     console.log('data index', data)  
