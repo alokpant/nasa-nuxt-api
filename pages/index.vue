@@ -1,17 +1,33 @@
 <script setup>
 const loading = ref(false)
+const data = ref([])
+
+onMounted(async () => {
+  loading.value = true
+
+  const UPDATED_SINCE = '2024-05-01'
+
+  try {
+    console.log(`${NASA_API_URL}projects?api_key=${API_KEY}&updated_since=${UPDATED_SINCE}`)
+    const response = await fetch(`/api/projects?updated_since=${UPDATED_SINCE}&page=${1}&limit=${10}`);
+    data.value = await response.json()
+    console.log('data index', data)  
+  } catch (error) {
+    console.log(error)
+    loading.value = false
+  }
+})
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center">
-    <div class="flex flex-col gap-y-4 items-center justify-center">
-      <a href="https://nuxt.com" target="_blank" aria-label="Nuxt">
-        <svg width="61" height="42" viewBox="0 0 61 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <div class="flex flex-col gap-6 w-full h-full">  
+    <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold">Projects</h1>
 
-        </svg>
-      
-      </a>
-      <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold text-center">I am going to write in  Nuxt!</h1>
-    </div>
+    <ul class="grid grid-cols-5 gap-4 items-center justify-start w-full h-screen">
+      <li v-for="item in data" :key="item.id" class="border-2 border-black dark:border-white">
+        <p>{{ item.projectId }}</p>
+        <p>{{ item.lastUpdated }}</p>
+      </li>
+    </ul>
   </div>
 </template>

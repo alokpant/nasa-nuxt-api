@@ -22,5 +22,13 @@ export default defineNuxtConfig({
     componentDir: './components/ui'
   },
 
-  compatibilityDate: "2024-07-27"
+  compatibilityDate: "2024-07-27",
+  serverMiddleware: [
+    { path: '/api', handler: '~/server/middleware/api.js' }
+  ],
+  runtimeConfig: {
+    public: {
+      nasaApiKey: process.env.NASA_API_KEY
+    }
+  }
 })
