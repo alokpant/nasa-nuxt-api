@@ -4,12 +4,11 @@ import { format, isBefore, sub } from 'date-fns';
 const projectDetailsCache = new Map();
 const REFETCH_INTERVAL = 1000 * 60 * 60; // 1 hour
 
-// const allProjectsCacheByDate = new Map();
-
 export default defineEventHandler(async (event) => {
   const { page = 1, perPage = 11 } = getQuery(event);
   const UPDATED_SINCE = '2024-07-16'
 
+  console.log('api called')
   const apiUrl = `${process.env.NASA_API_URL}/projects?updatedSince=${UPDATED_SINCE}`;
   console.log('api called')
   const response = await fetch(apiUrl, {

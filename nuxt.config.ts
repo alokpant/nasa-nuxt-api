@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
+    // "@pinia-plugin-persistedstate/nuxt"
   ],
 
   css: ['@/assets/css/tailwind.css'],
@@ -31,5 +32,5 @@ export default defineNuxtConfig({
     public: {
       nasaApiKey: process.env.NASA_API_KEY
     }
-  }
+  },
 })

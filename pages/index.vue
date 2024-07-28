@@ -1,19 +1,45 @@
 <script setup>
-const loading = ref(false)
-const data = ref([])
+  import { ref } from 'vue'
+  import useProjectStore from '~/stores/projects'
+  import useSettingsStore from '~/stores/settings' 
 
-onMounted(async () => {
-  loading.value = true
-  const UPDATED_SINCE = '2024-05-01'
+  /* data */
+  const projectsStore = useProjectStore()
+  const settingsStore = useSettingsStore()
 
-  try {
-    const response = await fetch(`/api/projects?updated_since=${UPDATED_SINCE}&page=${1}&limit=${10}`);
-    data.value = await response.json()
-  } catch (error) {
-    console.log(error)
-    loading.value = false
-  }
-})
+  /* computed */
+  const projects = computed(() => projectsStore.projects);
+
+  /* methods */
+  onMounted(async () => {
+    console.log('index called')
+
+    settingsStore.setIsLoading(true);
+    const UPDATED_SINCE = '2024-05-01'
+
+    try {
+      // await useAsyncData('projects', () => projectStore.fetchProjects())
+      await projectsStore.fetchProjects();
+    } catch (error) {
+      console.log(error)
+    } finally {
+      settingsStore.setIsLoading(false);
+    }
+  })
+
+  /* watchers */
+  watch(
+    [
+      () => settingsStore.currentPage,
+      () => settingsStore.perPage,
+      () => settingsStore.lastUpdated
+    ],
+    async () => {
+      settingsStore.setIsLoading(true);
+      await projectsStore.fetchProjects();
+      settingsStore.setIsLoading(false);
+    }
+  );
 </script>
 
 <template>
@@ -21,10 +47,10 @@ onMounted(async () => {
     <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold">Projects</h1>
 
     <ul class="grid grid-cols-5 gap-4 items-start justify-start w-full" >
-      <NuxtLink :to="{ name: 'projects-pid', params: { pid: item.projectId } }" v-for="item in data" :key="item.id" class="border-2 border-black dark:border-white">
-        <p>{{ item.projectId }}</p>
-        <p>{{ item.lastUpdated }}</p>
-        <p class="text-sm line-clamp-3">{{ item.description }}</p>
+      <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }" v-for="project in projects.value" :key="project.id" class="border-2 border-black dark:border-white">
+        <p>{{ project.projectId }}</p>
+        <p>{{ project.lastUpdated }}</p>
+        <p class="text-sm line-clamp-3">{{ project.description }}</p>
       </NuxtLink>
     </ul>
   </div>
