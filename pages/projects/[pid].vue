@@ -21,9 +21,6 @@ const route = useRoute();
 const loading = ref(false);
 const project = ref(null);
 
-console.log(route.params, 'route params')
-
-
 onMounted(async () => {
   const pid = useRoute().params.pid;
   loading.value = true
