@@ -12,7 +12,6 @@ export const useProjectsStore = defineStore(STORE_KEY, () => {
   const projects = ref([]);
 
   const setProjects = (projectDetails: any[]) => {
-    console.log('setProjects', projectDetails)
     projects.value = projectDetails;
   }
 

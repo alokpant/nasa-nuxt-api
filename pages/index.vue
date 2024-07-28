@@ -1,7 +1,16 @@
 <script setup>
 import useSettingsStore from '~/stores/settings' 
 import useProjectsStore from '~/stores/projects'
+import CalendarContainer from '@/components/calendar/CalendarContainer.vue'
 import { ref } from 'vue'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 /* data */
 const settingsStore = useSettingsStore()
@@ -28,16 +37,31 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col gap-3 w-full h-full">  
-    <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold">Projects</h1>
+    <div class="flex flex-row justify-between items-center">
+      <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold">Projects</h1>
+      <div class="flex flex-row gap-2">
+        <CalendarContainer />
+        <span>per page</span>
+      </div>
+    </div>
 
-    <ul class="grid grid-cols-3 gap-4 items-start justify-start w-full" >
+    <ul class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
       <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }"
         v-for="project in projects"
         :key="project.id"
-        class="border-2 border-black dark:border-white">
-        <p>{{ project.projectId }}</p>
-        <p>{{ project.lastUpdated }}</p>
-        <p class="text-sm line-clamp-3">{{ project.title }}</p>
+        class="h-full self-stretch">
+        <Card class="h-full">
+          <CardHeader>
+            <CardTitle>{{ project.title }}</CardTitle>
+            <CardDescription>{{ project.lastUpdated }}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p class="text-sm line-clamp-3">{{ project.description }}</p>
+          </CardContent>
+          <!-- <CardFooter>
+            <p class="text-sm line-clamp-3">{{ project.description }}</p>
+          </CardFooter> -->
+        </Card>
       </NuxtLink>
     </ul>
   </div>

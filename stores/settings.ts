@@ -24,6 +24,7 @@ export const useSettingsStore = defineStore(STORE_KEY, () => {
  
   /* Actions */
   const setUpdatedSince = (date: Date) =>{ 
+    console.log('setUpdatedSince', date)
     updatedSince.value = formatDate(date)
   }
 
