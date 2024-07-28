@@ -24,7 +24,8 @@ export default defineNuxtConfig({
 
   compatibilityDate: "2024-07-27",
   serverMiddleware: [
-    { path: '/api', handler: '~/server/middleware/api.js' }
+    { path: '/api/projects', handler: '~/server/api/projects.ts' },
+    { path: '/api/projects', handler: '~/server/api/projects/[pid].ts' }
   ],
   runtimeConfig: {
     public: {
