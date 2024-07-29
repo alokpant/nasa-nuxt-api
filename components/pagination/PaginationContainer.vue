@@ -33,8 +33,6 @@ const handlePageChange = (value: Number) => {
 const totalPaginationPages = computed(() => Math.ceil(props.total / props.itemsPerPage))
 const disablePrevButtons = computed(() => props.disabled || props.page === 1)
 const disableNextButtons = computed(() => props.disabled || totalPaginationPages.value === props.page)
-
-console.log(props, 'pagination props', totalPaginationPages.value, props.page)
 </script>
 
 <template>

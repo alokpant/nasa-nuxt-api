@@ -62,7 +62,6 @@ const handlePaginationUpdate = (page) => {
 /* computed */
 const totalPaginationItems = computed(() => Math.ceil(settingsStore.totalResults / settingsStore.perPage))
 
-console.log(totalPaginationItems.value, settingsStore.totalResults, settingsStore.perPage)
 /* watchers */
 watch(
   [
@@ -107,6 +106,7 @@ watch(
         Total results: <span class="font-semibold">{{ settingsStore.totalResults }}</span>
       </h3>
       <PaginationContainer
+        v-if="totalPaginationItems > 1"
         :disabled="settingsStore.isLoading"
         :total="Number(settingsStore.totalResults)"
         :itemsPerPage="Number(settingsStore.perPage)"
@@ -114,31 +114,40 @@ watch(
         @pagination-updated="handlePaginationUpdate" />
     </div>
 
-    <ul v-if="!settingsStore.isLoading" class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
-      <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }"
-        v-for="project in projects"
-        :key="project.id"
-        v-if="projects.length > 0"
-        class="h-full self-stretch">
-        <Card class="h-full">
-          <CardHeader>
-            <CardTitle>{{ project.title }}</CardTitle>
-            <CardDescription>{{ project.lastUpdated }}</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p class="text-sm line-clamp-3">{{ project.description }}</p>
-          </CardContent>
-          <!-- <CardFooter>
-            <p class="text-sm line-clamp-3">{{ project.description }}</p>
-          </CardFooter> -->
-        </Card>
-      </NuxtLink>
+    <div v-if="!settingsStore.isLoading" class="flex flex-col justify-between items-end content-stretch w-full">
+      <ul class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
+        <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }"
+          v-for="project in projects"
+          :key="project.id"
+          v-if="projects.length > 0"
+          class="h-full self-stretch">
+          <Card class="h-full">
+            <CardHeader>
+              <CardTitle>{{ project.title }}</CardTitle>
+              <CardDescription>{{ project.lastUpdated }}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p class="text-sm line-clamp-3">{{ project.description }}</p>
+            </CardContent>
+            <!-- <CardFooter>
+              <p class="text-sm line-clamp-3">{{ project.description }}</p>
+            </CardFooter> -->
+          </Card>
+        </NuxtLink>
 
-      <li v-else class="grid col-span-3 items-stretch content-stretch justify-center w-full leading-7 [&:not(:first-child)]:mt-6">
-        For given calendar date, there are no projects.
-      </li>
-    </ul>
+        <li v-else class="grid col-span-3 items-stretch content-stretch justify-center w-full leading-7 [&:not(:first-child)]:mt-6">
+          For given calendar date, there are no projects.
+        </li>
+      </ul>
 
+      <div class="flex flex-row justify-between items-end content-stretch" v-if="!settingsStore.isLoading && totalPaginationItems > 1">
+          <PaginationContainer
+            :total="Number(settingsStore.totalResults)"
+            :itemsPerPage="Number(settingsStore.perPage)"
+            :page="Number(settingsStore.currentPage)"
+            @pagination-updated="handlePaginationUpdate" />
+        </div>
+    </div>
     <p v-else>loading...</p>
   </div>
 </template>
