@@ -1,35 +1,36 @@
-import { formatDate } from '@/lib/date'
 import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
-import { useCookie } from 'nuxt/app';
+import { ref, } from 'vue'
+import { ProjectDetail } from '@/types/ProjectDetail';
 
-const REFETCH_INTERVAL = 1000 * 60 * 60; // 1 hour
 const STORE_KEY = 'projects'
-const PROJECT_DETAILS_STORE_KEY = 'projectsDetails'
 
 export const useProjectsStore = defineStore(STORE_KEY, () => {
-  const projectsWithDetailsCache = useCookie(PROJECT_DETAILS_STORE_KEY);
-  const projects = ref([]);
-
-  const setProjects = (projectDetails: any[]) => {
+  const projects = ref<ProjectDetail[]>([]);
+  const setProjects = (projectDetails: ProjectDetail[]) => {
     projects.value = projectDetails;
   }
 
-  watch(projects, (newVal) => {
-    const newProjectsWithDetails: any = {};
-    if (newVal === undefined || newVal.length === 0) return;
+  // TODO: cookies cannot store large amount of data
+  // replace this something that is available on both server
+  // side as well as client side. localStorage does not work
+  // here as it is only available on client side.
+  // const PROJECT_DETAILS_STORE_KEY = 'projectsDetails'
+  // const projectsWithDetailsCache = useCookie(PROJECT_DETAILS_STORE_KEY);
+  // watch(projects, (newVal: ProjectDetail[]) => {
+  //   const newProjectsWithDetails: any = {};
+  //   if (newVal === undefined || newVal.length === 0) return;
 
-    newVal.forEach((project: any) => {
-      const cacheKey = formatDate(new Date(project.lastUpdated)); 
-      const cacheKeyForProjectDetails = `${project.projectId}-${cacheKey}`;      
-      newProjectsWithDetails[cacheKeyForProjectDetails] = {
-        ...project,
-        lastFetched: formatDate(new Date(project.lastFetched)),
-      }; 
-    });
+  //   newVal.forEach((project: any) => {
+  //     const cacheKey = formatDate(new Date(project.lastUpdated)); 
+  //     const cacheKeyForProjectDetails = `${project.projectId}-${cacheKey}`;      
+  //     newProjectsWithDetails[cacheKeyForProjectDetails] = {
+  //       ...project,
+  //       lastFetched: formatDate(new Date(project.lastFetched)),
+  //     }; 
+  //   });
 
-    projectsWithDetailsCache.value = JSON.stringify(newProjectsWithDetails);
-  }, { deep: true, immediate: true });
+  //   projectsWithDetailsCache.value = JSON.stringify(newProjectsWithDetails);
+  // }, { deep: true, immediate: true });
 
   return {
     setProjects,
