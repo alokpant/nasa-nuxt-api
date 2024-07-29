@@ -24,6 +24,7 @@
     "vue": "latest"
   },
   "devDependencies": {
+    "@internationalized/date": "^3.5.5",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@testing-library/vue": "^8.1.0",
     "@vue/test-utils": "^2.4.6",
