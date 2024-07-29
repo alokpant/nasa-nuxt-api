@@ -5,17 +5,22 @@ import { useCookie } from 'nuxt/app';
 import { sub } from 'date-fns';
 
 const STORE_KEY = 'settings'
+const DEFAULT_PAGE = 1
+const DEFAULT_PER_PAGE = 10
+const DEFAULT_FETCH_TIMEFRAME = 14
+
 export const useSettingsStore = defineStore(STORE_KEY, () => {
   const updatedSinceCookie = useCookie('updatedSince');
   const currentPageCookie = useCookie('currentPage');
   const perPageCookie = useCookie('perPage');
   const totalResultsCookie = useCookie('totalResults');
   
-  const updatedSince = ref(updatedSinceCookie.value || formatDate(sub(new Date(), { days: 14 })))
-  const currentPage = ref(currentPageCookie.value ? Number(currentPageCookie.value) : 1);
-  const perPage = ref(perPageCookie.value ? Number(perPageCookie.value) : 10);
-  const totalResults = ref(totalResultsCookie.value ? Number(totalResultsCookie.value) : 1);
-  const isLoading = ref(false)
+  const updatedSince = ref(updatedSinceCookie.value || formatDate(sub(new Date(), { days: DEFAULT_FETCH_TIMEFRAME })))
+  const currentPage = ref(currentPageCookie.value ? Number(currentPageCookie.value) : DEFAULT_PAGE);
+  const perPage = ref(perPageCookie.value ? Number(perPageCookie.value) : DEFAULT_PER_PAGE);
+  const totalResults = ref(totalResultsCookie.value ? Number(totalResultsCookie.value) : 0);
+  // set true so that it shows loading when user lands on the page or refreshes the page
+  const isLoading = ref(true)
 
   updatedSinceCookie.value = updatedSince.value
   currentPageCookie.value = String(currentPage.value)
@@ -24,7 +29,6 @@ export const useSettingsStore = defineStore(STORE_KEY, () => {
  
   /* Actions */
   const setUpdatedSince = (date: Date) =>{ 
-    console.log('setUpdatedSince', date)
     updatedSince.value = formatDate(date)
   }
 
@@ -60,7 +64,6 @@ export const useSettingsStore = defineStore(STORE_KEY, () => {
   watch(totalResults, (newVal) => {
     totalResultsCookie.value = String(newVal);
   });
-
 
   return {
     updatedSince,

@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
 
   const result = await response.json();
   const projects = result.projects.slice(Number(currentPage) - 1, Number(perPage))
+  // const projects = result.projects
   if (projects.length === 0) {
     return { projectsWithDetails: [], totalCount: 0 };
   }

@@ -51,12 +51,22 @@ const handleCalendarDateUpdate = (date) => {
 
 const handleSelectUpdated = (value) => {
   settingsStore.setPerPage(value)
+  settingsStore.setCurrentPage(1)
+  settingsStore.setTotalResults(0)
 }
 
+const handlePaginationUpdate = (page) => {
+  settingsStore.setCurrentPage(page)
+}
+
+/* computed */
+const totalPaginationItems = computed(() => Math.ceil(settingsStore.totalResults / settingsStore.perPage))
+
+console.log(totalPaginationItems.value, settingsStore.totalResults, settingsStore.perPage)
 /* watchers */
 watch(
   [
-    // () => settingsStore.currentPage,
+    () => settingsStore.currentPage,
     () => settingsStore.perPage,
     () => settingsStore.updatedSince
   ],
@@ -88,6 +98,20 @@ watch(
           :disabled="settingsStore.isLoading"
         />
       </div>
+    </div>
+
+    <div class="flex flex-row justify-between items-end content-stretch" v-if="!settingsStore.isLoading">
+      <h3
+        class="text-sm m-0 self-end"
+      >
+        Total results: <span class="font-semibold">{{ settingsStore.totalResults }}</span>
+      </h3>
+      <PaginationContainer
+        :disabled="settingsStore.isLoading"
+        :total="Number(settingsStore.totalResults)"
+        :itemsPerPage="Number(settingsStore.perPage)"
+        :page="Number(settingsStore.currentPage)"
+        @pagination-updated="handlePaginationUpdate" />
     </div>
 
     <ul v-if="!settingsStore.isLoading" class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
