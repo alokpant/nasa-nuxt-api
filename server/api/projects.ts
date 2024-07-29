@@ -7,8 +7,6 @@ const REFETCH_INTERVAL = 1000 * 60 * 60; // 1 hour
 export default defineEventHandler(async (event) => {
   const { updatedSince, perPage, currentPage, projectsDetails } = parseCookies(event)
   const apiUrl = `${process.env.NASA_API_URL}/projects?updatedSince=${updatedSince}`;
-
-  console.log('api called', parseCookies(event))
   const response = await fetch(apiUrl, {
     headers: {
       'Authorization': `Bearer ${process.env.NASA_API_KEY}`
@@ -22,7 +20,7 @@ export default defineEventHandler(async (event) => {
   const result = await response.json();
   const projects = result.projects.slice(Number(currentPage) - 1, Number(perPage))
   if (projects.length === 0) {
-    return { error: 'No projects found' };
+    return { projectsWithDetails: [], totalCount: 0 };
   }
   
   const projectWithDetails = await Promise.all(projects.map(async (project: { projectId: string; lastUpdated: string;}) => {

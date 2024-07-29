@@ -17,6 +17,7 @@ export const useProjectsStore = defineStore(STORE_KEY, () => {
 
   watch(projects, (newVal) => {
     const newProjectsWithDetails: any = {};
+    if (newVal === undefined || newVal.length === 0) return;
 
     newVal.forEach((project: any) => {
       const cacheKey = formatDate(new Date(project.lastUpdated)); 

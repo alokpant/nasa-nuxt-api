@@ -47,7 +47,7 @@ watch(value, () => {
       </Button>
     </PopoverTrigger>
     <PopoverContent class="w-auto p-0">
-      <Calendar v-model="value" initial-focus />
+      <Calendar v-model="value" initial-focus :max-value="today(getLocalTimeZone())" />
     </PopoverContent>
   </Popover>
 </template>

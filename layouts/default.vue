@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <h1>This is the default layout</h1>
+    <NuxtLoadingIndicator color="#348feb" height="5" />
     <slot />
   </div>
 </template>

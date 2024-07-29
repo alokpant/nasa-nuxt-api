@@ -11,15 +11,16 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+// import PageLoading from '@/components/loader/PageLoading.vue'
 
 /* data */
 const settingsStore = useSettingsStore()
 const projectsStore = useProjectsStore()
 const projects = ref([])
 
-/* methods */
-onMounted(async () => {
-  settingsStore.setIsLoading(true)  
+const fetchProjects = async () => {
+  settingsStore.setIsLoading(true)
+  projectsStore.setProjects([])
   
   try {
     const response = await fetch('/api/projects');
@@ -32,23 +33,47 @@ onMounted(async () => {
   } finally {
     settingsStore.setIsLoading(false)
   }
+}
+
+/* methods */
+onMounted(async () => {
+  await fetchProjects();
 })
+
+/* watchers */
+watch(
+  [
+    // () => settingsStore.currentPage,
+    // () => settingsStore.perPage,
+    // () => settingsStore.lastUpdated
+    () => settingsStore.updatedSince
+  ],
+  async () => {
+    console.log('watcher triggered', settingsStore.currentPage, settingsStore.perPage, settingsStore.lastUpdated)
+    await fetchProjects();
+  }
+);
 </script>
 
 <template>
   <div class="flex flex-col gap-3 w-full h-full">  
-    <div class="flex flex-row justify-between items-center">
-      <h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold">Projects</h1>
-      <div class="flex flex-row gap-2">
+    <div class="flex flex-row justify-between items-center content-center">
+      <h1
+        class="text-3xl font-semibold m-0 self-stretch"
+      >
+        Projects
+      </h1>
+      <div class="flex flex-row gap-2 self-stretch">
         <CalendarContainer />
         <span>per page</span>
       </div>
     </div>
 
-    <ul class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
+    <ul v-if="!settingsStore.isLoading" class="grid grid-cols-3 gap-4 items-stretch content-stretch justify-start w-full" >
       <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }"
         v-for="project in projects"
         :key="project.id"
+        v-if="projects.length > 0"
         class="h-full self-stretch">
         <Card class="h-full">
           <CardHeader>
@@ -63,6 +88,12 @@ onMounted(async () => {
           </CardFooter> -->
         </Card>
       </NuxtLink>
+
+      <li v-else class="grid col-span-3 items-stretch content-stretch justify-center w-full leading-7 [&:not(:first-child)]:mt-6">
+        For given calendar date, there are no projects.
+      </li>
     </ul>
+
+    <p v-else>loading...</p>
   </div>
 </template>
