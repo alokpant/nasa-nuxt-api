@@ -9,9 +9,15 @@ import {
 } from '@/components/ui/card'
 // import { ProjectDetail } from '@/types/ProjectDetail';
 
-defineProps<{
+const props = defineProps<{
   project: any
 }>()
+
+const projectInfo = ref<Record<string, string>[]>([
+  { title: 'Start Date', value: props.project.startDateString },
+  { title: 'End Date', value: props.project.endDateString },
+  { title: 'Total views', value: props.project.viewCount },
+])
 </script>
 
 <template>
@@ -25,18 +31,10 @@ defineProps<{
     </CardHeader>
     <span class="mb-6 mx-6 border-b-2 h-0 border-gray-200 border-dashed" />
     <CardContent class="flex flex-col justify-between">
-      <div class="flex flex-row justify-between">
-        <div class="flex flex-col">
-          <p class="text-sm tracking-tight font-semibold text-gray-700 mb-2">Start Date</p>
-          <p class="text-sm">{{ project.startDateString }}</p>
-        </div>
-        <div class="flex flex-col">
-          <p class="text-sm tracking-tight font-semibold text-gray-700 mb-2">End Date</p>
-          <p class="text-sm">{{ project.endDateString }}</p>
-        </div>
-        <div class="flex flex-col">
-          <p class="text-sm tracking-tight font-semibold text-gray-700 mb-2">View count</p>
-          <p class="text-sm">{{ project.viewCount }}</p>
+      <div class="flex flex-col md:flex-row justify-between">
+        <div class="flex flex-col" v-for="info in projectInfo" :key="info.title">
+          <p class="text-sm tracking-tight font-semibold text-gray-700 mb-2">{{ info.title }}</p>
+          <p class="text-sm">{{ info.value }}</p>
         </div>
       </div>
       <span class="my-6 border-b-2 h-0 border-gray-200 border-dashed" />

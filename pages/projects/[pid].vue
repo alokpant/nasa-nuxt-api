@@ -1,7 +1,77 @@
 <template>
-  <div v-if="project">
-    <h1>{{ project.name }}</h1>
-    <p>{{ project.description }}</p>
+  <div class='flex flex-col' v-if="project">
+    <div class="flex justify-start w-full gap-3">
+      <Button @click="$router.back()" class="hover:bg-amber-700">
+        <ArrowLeftIcon class="h-4 w-4" />
+      </Button>
+      <Button @click="$router.push({ path: '/' })" class="hover:bg-indigo-700">
+        <HouseIcon class="h-4 w-4" />
+      </Button>
+    </div>
+
+    <header class="flex flex-col mt-6 justify-between">
+      <h3 class="text-sm font-semibold">{{ project.program.title }}</h3>
+      <h1 class="text-2xl font-semibold ">{{ project.title }}</h1>
+    </header>
+
+    <main class="flex mt-6 flex-col justify-between">
+      <div class="flex flex-col justify-start">
+        <div class="flex flex-col md:flex-row">
+          <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Start Date:</p>
+          <p class="text-sm">{{ project.startDateString }}</p>
+        </div>
+        <div class="flex flex-col md:flex-row">
+          <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">End Date:</p>
+          <p class="text-sm">{{ project.endDateString }}</p>
+        </div>
+        <div class="flex flex-col md:flex-row">
+          <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Total views:</p>
+          <p class="text-sm">{{ project.viewCount }}</p>
+        </div>
+        <div class="flex flex-col md:flex-row">
+          <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Release Status:</p>
+          <p :class="cn(
+            'text-sm',
+            project.releaseStatusString === 'Released' && 'text-green-800',
+          )">{{ project.releaseStatusString }}</p>
+        </div>
+        <div class="flex flex-col md:flex-row" v-if="project.website">
+          <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Website:</p>
+          <p class="text-sm">{{ project.website }}</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-html="project.description"></div>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-if="project.leadOrganization.length > 0">
+        <h2 class="text-lg font-semibold">Benefits</h2>
+        <div class="flex flex-col justify-start gap-3 py-6" v-html="project.benefits"></div>
+      </div>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-if="project.leadOrganization?.length > 0">
+        <h2 class="text-lg font-semibold">Lead Organizations</h2>
+        <ul class="grid grid-cols-2 gap-3">
+          <li v-for="org in project.leadOrganization" :key="org.organizationId">{{ org.organizationName }}</li>
+        </ul>
+      </div>
+
+      <h2 class="text-lg font-semibold">Members</h2>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-if="project.principalInvestigators?.length > 0">
+        <PersonCard :members="project.principalInvestigators" role="Principal Investigator" />
+
+      </div>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-if="project.programManagers?.length > 0">
+        <PersonCard :members="project.programManagers" role="Program Manager" />
+      </div>
+
+      <div class="flex flex-col justify-start gap-3 py-6" v-if="project.projectManagers?.length > 0">
+        <PersonCard :members="project.projectManagers" role="Project Manager" />
+      </div>
+    </main>
+
+    <!-- <p>{{ project.description }}</p>
     <h2>Organizations</h2>
     <ul>
       <li v-for="org in project.organizations" :key="org.id">{{ org.name }}</li>
@@ -9,13 +79,16 @@
     <h2>Contacts</h2>
     <ul>
       <li v-for="contact in project.contacts" :key="contact.id">{{ contact.name }} - {{ contact.role }}</li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { cn } from '@/lib/utils'
+import PersonCard from '@/components/card/PersonCard.vue'
+import { House as HouseIcon, ArrowLeft as ArrowLeftIcon } from 'lucide-vue-next'
 
 const route = useRoute();
 const loading = ref(false);
@@ -28,6 +101,8 @@ onMounted(async () => {
     
     const response = await fetch(`/api/projects/${pid}`);
     project.value = await response.json()
+
+    console.log(project.value)
   } catch (error) {
     console.log(error)
     loading.value = false

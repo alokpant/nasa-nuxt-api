@@ -15,7 +15,7 @@ import {
 const settingsStore = useSettingsStore()
 const projectsStore = useProjectsStore()
 const projects = ref([])
-const perPageOptions = [10, 25, 50]
+const perPageOptions = [12, 24, 48]
 
 const fetchProjects = async () => {
   settingsStore.setIsLoading(true)
@@ -126,13 +126,13 @@ watch(
         </li>
       </ul>
 
-      <div class="flex flex-row justify-between items-end content-stretch" v-if="!settingsStore.isLoading && totalPaginationItems > 1">
-          <PaginationContainer
-            :total="Number(settingsStore.totalResults)"
-            :itemsPerPage="Number(settingsStore.perPage)"
-            :page="Number(settingsStore.currentPage)"
-            @pagination-updated="handlePaginationUpdate" />
-        </div>
+      <div class="flex flex-row py-6 justify-between items-end content-stretch" v-if="!settingsStore.isLoading && totalPaginationItems > 1">
+        <PaginationContainer
+          :total="Number(settingsStore.totalResults)"
+          :itemsPerPage="Number(settingsStore.perPage)"
+          :page="Number(settingsStore.currentPage)"
+          @pagination-updated="handlePaginationUpdate" />
+      </div>
     </div>
     <p v-else>loading...</p>
   </div>
