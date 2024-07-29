@@ -11,6 +11,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import {
+  getLocalTimeZone,
+  today,
+} from '@internationalized/date'
 // import PageLoading from '@/components/loader/PageLoading.vue'
 
 /* data */
@@ -40,6 +44,10 @@ onMounted(async () => {
   await fetchProjects();
 })
 
+const handleCalendarDateUpdate = (date) => {
+  settingsStore.setUpdatedSince(date.toLocaleString().substring(0, 10))
+}
+
 /* watchers */
 watch(
   [
@@ -64,7 +72,11 @@ watch(
         Projects
       </h1>
       <div class="flex flex-row gap-2 self-stretch">
-        <CalendarContainer />
+        <CalendarContainer
+          @calendar-updated="handleCalendarDateUpdate"
+          :date="settingsStore.updatedSince"
+          :disabled="settingsStore.isLoading"
+          :max-date="today(getLocalTimeZone())" />
         <span>per page</span>
       </div>
     </div>
