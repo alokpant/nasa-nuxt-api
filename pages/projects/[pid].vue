@@ -108,4 +108,13 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+useSeoMeta({
+  title: () => project.value?.title,
+  ogTitle: () => project.value?.title,
+  description: () => project.value?.description,
+  ogDescription: () => project.value?.description,
+  ogImage: "https://techport.nasa.gov/images/NASA-Logo.png",
+  twitterCard: 'summary_large_image',
+})
 </script>
