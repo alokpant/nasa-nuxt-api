@@ -21,6 +21,7 @@ import {
 const settingsStore = useSettingsStore()
 const projectsStore = useProjectsStore()
 const projects = ref([])
+const perPageOptions = [10, 25, 50]
 
 const fetchProjects = async () => {
   settingsStore.setIsLoading(true)
@@ -48,16 +49,18 @@ const handleCalendarDateUpdate = (date) => {
   settingsStore.setUpdatedSince(date.toLocaleString().substring(0, 10))
 }
 
+const handleSelectUpdated = (value) => {
+  settingsStore.setPerPage(value)
+}
+
 /* watchers */
 watch(
   [
     // () => settingsStore.currentPage,
-    // () => settingsStore.perPage,
-    // () => settingsStore.lastUpdated
+    () => settingsStore.perPage,
     () => settingsStore.updatedSince
   ],
   async () => {
-    console.log('watcher triggered', settingsStore.currentPage, settingsStore.perPage, settingsStore.lastUpdated)
     await fetchProjects();
   }
 );
@@ -77,7 +80,13 @@ watch(
           :date="settingsStore.updatedSince"
           :disabled="settingsStore.isLoading"
           :max-date="today(getLocalTimeZone())" />
-        <span>per page</span>
+        
+        <SelectContainer
+          :options="perPageOptions"
+          :currentlySelected="settingsStore.perPage"
+          @select-updated="handleSelectUpdated"
+          :disabled="settingsStore.isLoading"
+        />
       </div>
     </div>
 

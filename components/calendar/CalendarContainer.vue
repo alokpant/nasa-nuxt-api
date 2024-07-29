@@ -26,7 +26,12 @@ const emit = defineEmits<{
 // Convert the string to a DateValue
 // this is needed as Calendar only works with Internationalized format
 const value = ref(parseDateTime(props.date)) as Ref<DateValue>
-const calendarOpen = ref(false)
+
+// This is needed to manually hide the calendar when
+// the user selects a date
+const calendarOpen = ref(false) 
+
+// TODO: this could be dynamic based on the locale
 const df = new DateFormatter('en-US', {
   dateStyle: 'long',
 })
