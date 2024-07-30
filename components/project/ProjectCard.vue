@@ -35,8 +35,8 @@ const projectInfo = ref<Record<string, string>[]>([
     <span class="mb-6 mx-6 border-b-2 h-0 border-gray-200 border-dashed" />
     <CardContent class="flex flex-col justify-between">
       <div class="flex flex-col md:flex-row justify-between">
-        <div class="flex flex-col" v-for="info in projectInfo" :key="info.title">
-          <p class="text-sm tracking-tight font-semibold text-gray-700 mb-2">{{ info.title }}</p>
+        <div class="flex flex-col mt-3 md:mt-0" v-for="info in projectInfo" :key="info.title">
+          <p class="text-sm tracking-tight font-semibold text-gray-700 md:mb-2">{{ info.title }}</p>
           <p class="text-sm" :data-test-id="`project-card-info-${info.title.toLowerCase().replace(' ', '-')}`">{{ info.value }}</p> 
         </div>
       </div>
@@ -45,7 +45,7 @@ const projectInfo = ref<Record<string, string>[]>([
     </CardContent>
     <CardFooter>
       <CardActions>
-        <Button data-test-id="project-card-view-details-button" as-child>
+        <Button data-test-id="project-card-view-details-button">
           <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }">
             View details
           </NuxtLink>

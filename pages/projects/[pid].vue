@@ -5,12 +5,11 @@ import { cn } from '@/lib/utils'
 import PersonCard from '@/components/card/PersonCard.vue'
 import { House as HouseIcon, ArrowLeft as ArrowLeftIcon } from 'lucide-vue-next'
 import PageLoading from '@/components/loader/PageLoading.vue'
-import { ProjectDetail } from '@/types/ProjectDetail.ts'
-import { useSettingsStore } from '@/stores/settings'
+import useSettingsStore from '@/stores/settings'
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const project = ref<ProjectDetail>({});
+const project = ref({});
 
 /* computed */
 const lastUpdatedAt = computed(() => (new Date(project.value?.lastUpdated)).toLocaleDateString())
@@ -63,7 +62,7 @@ useSeoMeta({
       data-test-id="project-page-content"
     >
       <header class="flex flex-col mt-6 justify-between">
-        <h3 class="text-sm font-semibold">{{ project.program.title }}</h3>
+        <h3 class="text-sm font-semibold">{{ project.program?.title }}</h3>
         <h1 class="text-2xl font-semibold ">{{ project.title }}</h1>
       </header>
 
@@ -148,7 +147,7 @@ useSeoMeta({
   </div>
 
   <div v-else
-    class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
+    class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6"
     data-test-id="project-page-loading">
     <PageLoading />
   </div>

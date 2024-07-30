@@ -72,13 +72,13 @@ watch(
 
 <template>
   <div class="flex flex-col gap-3 w-full h-full">  
-    <div class="flex flex-col md:flex-row justify-between items-center content-center">
+    <div class="flex flex-col sm:flex-row justify-between items-center content-center"> 
       <h1
-        class="text-3xl font-semibold m-0 self-stretch tight"
+        class="text-xl md:text-3xl font-semibold m-0 mb-6 sm:mb-0 self-stretch tight" 
       >
         Nasa TechPort Projects
       </h1>
-      <div class="flex flex-col sm:flex-row gap-2 self-stretch w-[220px]">
+      <div class="flex flex-row gap-2 self-stretch w-[220px]">
         <CalendarContainer
           @calendar-updated="handleCalendarDateUpdate"
           :date="settingsStore.updatedSince"
@@ -96,13 +96,14 @@ watch(
       </div>
     </div>
 
-    <div class="flex flex-row justify-between items-end content-stretch" v-if="!settingsStore.isLoading">
+    <div class="flex flex-col sm:flex-row justify-between items-end content-stretch mt-3 sm:mt-0" v-if="!settingsStore.isLoading">
       <h3
-        class="text-sm m-0 self-end"
+        class="text-sm m-0 mt-6 sm:mt-0 order-2 sm:order-1 self-end w-full"
       >
         Total results: <span class="font-semibold">{{ settingsStore.totalResults }}</span>
       </h3>
       <PaginationContainer
+        class="order-1 sm:order-2"
         v-if="totalPaginationItems > 1"
         :disabled="settingsStore.isLoading"
         :total="Number(settingsStore.totalResults)"
@@ -112,7 +113,7 @@ watch(
     </div>
 
     <div v-if="!settingsStore.isLoading" class="flex flex-col justify-between items-end content-stretch w-full">
-      <ul class="grid md:grid-cols-3 xlg:grid-cols-4 gap-4 items-stretch content-stretch justify-start w-full" >
+      <ul class="grid sm:grid-cols-2 md:grid-cols-3 xlg:grid-cols-4 gap-4 items-stretch content-stretch justify-start w-full" >
         <li v-for="project in projects"
           :key="project.id"
           v-if="projects.length > 0"

@@ -34,7 +34,27 @@ const avatarFallbackText = (name: string) => {
 </script>
 
 <template>
-  <ul class="flex items-center justify-start space-x-4 gap-6">
+  <ul class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 md:items-center justify-start gap-6 w-full">
+    <li class="flex items-center space-x-4" data-test-id="person-card-list" v-for="member in members" :key="member.contactId">
+      <Avatar>
+        <AvatarFallback data-test-id="person-card-avatar-fallback">{{  avatarFallbackText(member.fullName) }}</AvatarFallback>
+      </Avatar>
+      <div class="flex flex-col">
+        <p class="text-sm font-semibold leading-none" data-test-id="person-card-name">{{ member.fullNameInverted }}</p>
+        <p class="text-sm text-muted-foreground" data-test-id="person-card-email">{{ member.primaryEmail }}</p>
+        <p class="text-sm text-muted-foreground" data-test-id="person-card-role">{{ role }}</p>
+      </div>  
+    </li>
+    <li class="flex items-center space-x-4" data-test-id="person-card-list" v-for="member in members" :key="member.contactId">
+      <Avatar>
+        <AvatarFallback data-test-id="person-card-avatar-fallback">{{  avatarFallbackText(member.fullName) }}</AvatarFallback>
+      </Avatar>
+      <div class="flex flex-col">
+        <p class="text-sm font-semibold leading-none" data-test-id="person-card-name">{{ member.fullNameInverted }}</p>
+        <p class="text-sm text-muted-foreground" data-test-id="person-card-email">{{ member.primaryEmail }}</p>
+        <p class="text-sm text-muted-foreground" data-test-id="person-card-role">{{ role }}</p>
+      </div>  
+    </li>
     <li class="flex items-center space-x-4" data-test-id="person-card-list" v-for="member in members" :key="member.contactId">
       <Avatar>
         <AvatarFallback data-test-id="person-card-avatar-fallback">{{  avatarFallbackText(member.fullName) }}</AvatarFallback>
