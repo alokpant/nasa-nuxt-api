@@ -29,7 +29,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      nasaApiKey: process.env.NASA_API_KEY
+      nasaApiKey: process.env.NASA_API_KEY,
     }
   },
   // Set meta-titles

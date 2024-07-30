@@ -1,16 +1,16 @@
-import { defineEventHandler, getQuery } from 'h3';
+import { defineEventHandler, parseCookies } from 'h3';
 import { ProjectDetail } from '~/types/ProjectDetail';
 
-const API_BODY = {
+const apiBody = () => ({
   headers: {
     'Authorization': `Bearer ${process.env.NASA_API_KEY}`
   }
-}
+})
 
 export default defineEventHandler(async (event) => {
   const { updatedSince, perPage, currentPage } = parseCookies(event)
   const apiUrl = `${process.env.NASA_API_URL}/projects?updatedSince=${updatedSince}`;
-  const response = await fetch(apiUrl, API_BODY);
+  const response = await fetch(apiUrl, apiBody());
 
   if (!response.ok) {
     throw new Error(`Failed to fetch projects`);
@@ -30,9 +30,10 @@ export default defineEventHandler(async (event) => {
   return { projectsWithDetails: projectWithDetails, totalCount: result.totalCount };
 });
 
-async function getProjectDetails(project: ProjectDetail): Promise<ProjectDetail> {
+export const getProjectDetails = async (project: ProjectDetail): Promise<ProjectDetail> => {
   const apiUrl = `${process.env.NASA_API_URL}/projects/${project.projectId}`;
-  const response = await fetch(apiUrl, API_BODY);
+  const response = await fetch(apiUrl, apiBody());
+  
   if (!response.ok) {
     throw new Error(`Failed to fetch project: ${project.projectId}`);
   }
