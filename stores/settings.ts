@@ -9,7 +9,7 @@ const DEFAULT_PAGE = 1
 const DEFAULT_PER_PAGE = 10
 const DEFAULT_FETCH_TIMEFRAME = 14
 
-export const useSettingsStore = defineStore(STORE_KEY, () => {
+const useSettingsStore = defineStore(STORE_KEY, () => {
   const updatedSinceCookie = useCookie('updatedSince');
   const currentPageCookie = useCookie('currentPage');
   const perPageCookie = useCookie('perPage');

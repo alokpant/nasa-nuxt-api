@@ -4,7 +4,7 @@ import type { ProjectDetail } from '@/types/ProjectDetail';
 
 const STORE_KEY = 'projects'
 
-export const useProjectsStore = defineStore(STORE_KEY, () => {
+const useProjectsStore = defineStore(STORE_KEY, () => {
   const projects = ref<ProjectDetail[]>([]);
   const setProjects = (projectDetails: ProjectDetail[]) => {
     projects.value = projectDetails;

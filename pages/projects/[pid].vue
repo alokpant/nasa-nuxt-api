@@ -1,14 +1,16 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { cn } from '@/lib/utils'
 import PersonCard from '@/components/card/PersonCard.vue'
 import { House as HouseIcon, ArrowLeft as ArrowLeftIcon } from 'lucide-vue-next'
 import PageLoading from '@/components/loader/PageLoading.vue'
+import { ProjectDetail } from '@/types/ProjectDetail.ts'
+import { useSettingsStore } from '@/stores/settings'
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const project = ref(null);
+const project = ref<ProjectDetail>({});
 
 /* computed */
 const lastUpdatedAt = computed(() => (new Date(project.value?.lastUpdated)).toLocaleDateString())
@@ -43,17 +45,23 @@ useSeoMeta({
   <div class='flex flex-col'>
     <div class="flex justify-start w-full gap-3">
       <Button @click="$router.back()"
-        class="hover:bg-amber-700">
+        data-test-id="project-page-back-button">
         <ArrowLeftIcon class="h-4 w-4" />
       </Button>
       <Button @click="$router.push({ path: '/' })"
-        class="hover:bg-indigo-700">
+        data-test-id="project-page-home-button">
         <HouseIcon class="h-4 w-4" />
       </Button>
     </div>
 
-  <div class='flex flex-col text-sm' v-if="!settingsStore.isLoading">
-    <div class="flex flex-col" v-if="project">
+  <div class='flex flex-col text-sm'
+    data-test-id="project-page-container"
+    v-if="!settingsStore.isLoading"
+  >
+    <div class="flex flex-col"
+      v-if="project"
+      data-test-id="project-page-content"
+    >
       <header class="flex flex-col mt-6 justify-between">
         <h3 class="text-sm font-semibold">{{ project.program.title }}</h3>
         <h1 class="text-2xl font-semibold ">{{ project.title }}</h1>
@@ -131,12 +139,17 @@ useSeoMeta({
       </main>
     </div>
 
-    <div v-else class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
+    <div
+      v-else
+      data-test-id="project-page-not-found"
+      class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
       <h3 class="text-sm font-semibold">Project not found</h3>
     </div>
   </div>
 
-  <div v-else class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
+  <div v-else
+    class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
+    data-test-id="project-page-loading">
     <PageLoading />
   </div>
 </div>
