@@ -1,7 +1,7 @@
 // tests/components/ProjectCard.spec.ts
 
-import { mount } from '@vue/test-utils'
-import { describe, it, expect } from 'vitest'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { describe, it, expect, vi } from 'vitest'
 import ProjectCard from '@/components/project/ProjectCard.vue'
 
 describe('ProjectCard', () => {
@@ -11,10 +11,16 @@ describe('ProjectCard', () => {
     endDateString: '2024-12-31',
     viewCount: '100',
     description: '<p>Project Description</p>',
+    projectId: 123,
   }
 
   const getWrapper = () => mount(ProjectCard, {
     props: { project },
+    global: {
+      stubs: {
+        NuxtLink: RouterLinkStub,
+      }
+    }
   })
 
   it('renders project title', () => {
@@ -39,9 +45,11 @@ describe('ProjectCard', () => {
     expect(wrapper.find('.p-0').html()).toContain(project.description)
   })
 
-  it('renders View details button', () => {
+  it('renders action button', () => {
     const wrapper = getWrapper()
 
     expect(wrapper.find('[data-test-id="project-card-view-details-button"]').text()).toBe('View details')
+    expect(wrapper.findComponent(RouterLinkStub).props().to).toEqual({ name: 'projects-pid', params: { pid: project.projectId } })
+
   })
 })
