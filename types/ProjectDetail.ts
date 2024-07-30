@@ -134,6 +134,7 @@ export interface ProjectDetail {
   projectManagers: ManagerContactInformation[];
   responsibleMd: ResponsibleMd;
   program: Program;
+  benefits: string;
 
   // other information
   primaryTaxonomyNodes?: any;
@@ -141,7 +142,6 @@ export interface ProjectDetail {
   startTrl: any;
   currentTrl: any;
   endTrl: any;
-  benefits: string;
   destinations: any[];
   startYear: any;
   startMonth: any;

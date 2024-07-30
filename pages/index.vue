@@ -9,7 +9,7 @@ import {
   today,
 } from '@internationalized/date'
 // import { ProjectDetail } from '~/types/ProjectDetail.ts'
-// import PageLoading from '@/components/loader/PageLoading.vue'
+import PageLoading from '@/components/loader/PageLoading.vue'
 
 /* data */
 const settingsStore = useSettingsStore()
@@ -134,6 +134,8 @@ watch(
           @pagination-updated="handlePaginationUpdate" />
       </div>
     </div>
-    <p v-else>loading...</p>
+    <div v-else class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
+      <PageLoading />
+    </div>
   </div>
 </template>
