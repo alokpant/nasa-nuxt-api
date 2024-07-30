@@ -1,5 +1,11 @@
 # Nuxt 3 Minimal Starter
 
+The app fetches projects from [NASA TechPort API](https://techport.nasa.gov/help/articles/api). Here is a preview of how it looks:
+
+https://github.com/user-attachments/assets/170334e1-c917-4663-8f57-e23811eb14b6
+
+Tech stack includes: Nuxt3 / Pinia / Vitest / Shadcn (Tailwind CSS)
+
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
@@ -38,38 +44,20 @@ yarn dev
 bun run dev
 ```
 
-## Production
-
-Build the application for production:
+## Test
 
 ```bash
 # npm
-npm run build
+npm run test
 
 # pnpm
-pnpm run build
+pnpm run test
 
 # yarn
-yarn build
+yarn test
 
 # bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+bun run test
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
