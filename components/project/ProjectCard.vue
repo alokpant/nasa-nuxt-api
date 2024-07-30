@@ -9,10 +9,10 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Button } from '@/components/ui/button' 
-// import { ProjectDetail } from '@/types/ProjectDetail';
+import type { ProjectDetail } from '@/types/ProjectDetail';
 
 const props = defineProps<{
-  project: any
+  project: ProjectDetail
 }>()
 
 const projectInfo = ref<Record<string, string>[]>([
