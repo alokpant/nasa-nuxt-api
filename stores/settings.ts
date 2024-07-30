@@ -6,7 +6,7 @@ import { sub } from 'date-fns';
 
 const STORE_KEY = 'settings'
 const DEFAULT_PAGE = 1
-const DEFAULT_PER_PAGE = 10
+const DEFAULT_PER_PAGE = 12
 const DEFAULT_FETCH_TIMEFRAME = 14
 
 const useSettingsStore = defineStore(STORE_KEY, () => {
