@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils'
 
 const props = defineProps({
   date: String,
-  maxDate: String,
+  maxDate: CalendarDate,
   disabled: Boolean,
 })
 const emit = defineEmits<{
@@ -38,7 +38,7 @@ const df = new DateFormatter('en-US', {
 
 const handleCalendarUpdated = (newValue: DateValue) => {
   // when same value is clicked, it puts newValue as undefined
-  if (!newValue || newValue.value === value.value) return
+  if (!newValue) return
 
   emit('calendarUpdated', newValue)
   calendarOpen.value = false
@@ -56,7 +56,8 @@ const handleCalendarUpdated = (newValue: DateValue) => {
           !value && 'text-muted-foreground',
         )"
         :disabled="disabled"
-        @click="() => { calendarOpen = true }"
+        @click="() => { calendarOpen = !calendarOpen }"
+        data-test-id="calendar-button"
       >
         <CalendarIcon class="mr-2 h-4 w-4" />
         {{ value ? df.format(value.toDate(getLocalTimeZone())) : "Pick a date" }}
@@ -67,6 +68,7 @@ const handleCalendarUpdated = (newValue: DateValue) => {
         initial-focus
         :max-value="maxDate"
         @update:modelValue="handleCalendarUpdated"
+        data-test-id="calendar-component"
       />
     </PopoverContent>
   </Popover>

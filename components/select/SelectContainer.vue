@@ -24,7 +24,6 @@ const props = defineProps({
 const emit = defineEmits(['selectUpdated'])
 
 const handleSelectUpdate = (newValue: String) => {
-  console.log(newValue)
   emit('selectUpdated', newValue)
 }
 

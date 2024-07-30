@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, } from 'vue'
-import { ProjectDetail } from '@/types/ProjectDetail';
+import type { ProjectDetail } from '@/types/ProjectDetail';
 
 const STORE_KEY = 'projects'
 
