@@ -9,10 +9,8 @@ import {
   PaginationNext,
   PaginationPrev,
 } from '@/components/ui/pagination'
-
-import {
-  Button,
-} from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
+import { computed } from 'vue'
 
 const props = defineProps(<PaginationRootProps>{
   total: Number,
@@ -43,6 +41,7 @@ const disableNextButtons = computed(() => props.disabled || totalPaginationPages
     :siblingCount="2"
     :page="page"
     @update:page="handlePageChange"
+    data-test-id="pagination-container"
     v-if="total > 1">
     <PaginationList v-slot="{ items }" class="flex items-center gap-1">
       <PaginationFirst :disabled="disablePrevButtons" @click="handlePageChange(1)" />
@@ -56,7 +55,7 @@ const disableNextButtons = computed(() => props.disabled || totalPaginationPages
           <Button 
             class="w-10 h-10 p-0"
             :variant="item.value === page ? 'default' : 'outline'"
-            :disabled="page === item.value"
+            :disabled="disabled ||page === item.value"
           >
             {{ item.value }}
           </Button>
