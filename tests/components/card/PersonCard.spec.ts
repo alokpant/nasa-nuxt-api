@@ -24,13 +24,17 @@ describe('PersonCard', () => {
 
   const ROLE_MOCK = 'Manager'
 
-  it('renders members with correct information', () => {
-    const wrapper = mount(PersonCard, {
+  const getWrapper = (members = MEMBERS_MOCK) =>{
+    return mount(PersonCard, {
       props: {
-        members: MEMBERS_MOCK,
+        members,
         role: ROLE_MOCK,
       },
     })
+  }
+
+  it('renders members with correct information', () => {
+    const wrapper = getWrapper()
 
     const memberItems = wrapper.findAll('[data-test-id="person-card-list"]')
     expect(memberItems.length).toBe(2)
@@ -50,14 +54,9 @@ describe('PersonCard', () => {
   })
 
   it('renders one member when only one is available', () => {
-    const wrapper = mount(PersonCard, {
-      props: {
-        members: [MEMBERS_MOCK[0]],
-        role: ROLE_MOCK,
-      },
-    })
-
+    const wrapper = getWrapper([MEMBERS_MOCK[0]])
     const memberItems = wrapper.findAll('[data-test-id="person-card-list"]')
+    
     expect(memberItems.length).toBe(1)
   })
 })
