@@ -1,4 +1,4 @@
-// tests/components/ProjectCard.spec.ts
+// tests/components/project/ProjectCard.spec.ts
 
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { describe, it, expect } from 'vitest'

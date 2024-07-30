@@ -1,4 +1,4 @@
-// tests/components/PersonCard.spec.ts
+// tests/components/card/PersonCard.spec.ts
 
 import { mount } from '@vue/test-utils'
 import PersonCard from '@/components/card/PersonCard.vue'
@@ -56,7 +56,7 @@ describe('PersonCard', () => {
   it('renders one member when only one is available', () => {
     const wrapper = getWrapper([MEMBERS_MOCK[0]])
     const memberItems = wrapper.findAll('[data-test-id="person-card-list"]')
-    
+
     expect(memberItems.length).toBe(1)
   })
 })
