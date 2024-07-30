@@ -6,6 +6,8 @@ https://github.com/user-attachments/assets/170334e1-c917-4663-8f57-e23811eb14b6
 
 Tech stack includes: Nuxt3 / Pinia / Vitest / Shadcn (Tailwind CSS)
 
+You can preview it in [Codesandbox](https://codesandbox.io/p/github/alokpant/nasa-nuxt-api/main)
+
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## Setup
