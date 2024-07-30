@@ -113,13 +113,12 @@ watch(
 
     <div v-if="!settingsStore.isLoading" class="flex flex-col justify-between items-end content-stretch w-full">
       <ul class="grid md:grid-cols-3 xlg:grid-cols-4 gap-4 items-stretch content-stretch justify-start w-full" >
-        <NuxtLink :to="{ name: 'projects-pid', params: { pid: project.projectId } }"
-          v-for="project in projects"
+        <li v-for="project in projects"
           :key="project.id"
           v-if="projects.length > 0"
           class="h-full self-stretch">
           <ProjectCard :project="project" />
-        </NuxtLink>
+      </li>
 
         <li v-else class="grid col-span-3 items-stretch content-stretch justify-center w-full leading-7 [&:not(:first-child)]:mt-6">
           For given calendar date, there are no projects.

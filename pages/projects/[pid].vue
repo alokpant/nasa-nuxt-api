@@ -10,12 +10,17 @@ const route = useRoute();
 const settingsStore = useSettingsStore();
 const project = ref(null);
 
+/* computed */
+const lastUpdatedAt = computed(() => (new Date(project.value?.lastUpdated)).toLocaleDateString())
+
+/* methods */
 onMounted(async () => {
   settingsStore.setIsLoading(true)
   const pid = useRoute().params.pid;
   try {
     const response = await fetch(`/api/projects/${pid}`);
     project.value = await response.json()
+    console.log('invidiual project', project.value)
   } catch (error) {
     console.log(error)
   } finally {
@@ -47,7 +52,7 @@ useSeoMeta({
       </Button>
     </div>
 
-  <div class='flex flex-col' v-if="!settingsStore.isLoading">
+  <div class='flex flex-col text-sm' v-if="!settingsStore.isLoading">
     <div class="flex flex-col" v-if="project">
       <header class="flex flex-col mt-6 justify-between">
         <h3 class="text-sm font-semibold">{{ project.program.title }}</h3>
@@ -75,31 +80,45 @@ useSeoMeta({
               project.releaseStatusString === 'Released' && 'text-green-800',
             )">{{ project.releaseStatusString }}</p>
           </div>
+          <div class="flex flex-col md:flex-row">
+            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Last Updated:</p>
+            <p class="text-sm">{{ lastUpdatedAt }}</p>
+          </div>
           <div class="flex flex-col md:flex-row" v-if="project.website">
             <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Website:</p>
-            <p class="text-sm">{{ project.website }}</p>
+            <p class="">{{ project.website }}</p>
           </div>
         </div>
 
         <div class="flex flex-col justify-start gap-3 py-6" v-html="project.description"></div>
 
-        <div class="flex flex-col justify-start gap-3 py-6" v-if="project.leadOrganization.length > 0">
+        <div class="flex flex-col justify-start gap-3 py-6" v-if="project.benefits">
           <h2 class="text-lg font-semibold">Benefits</h2>
-          <div class="flex flex-col justify-start gap-3 py-6" v-html="project.benefits"></div>
+          <div class="flex flex-col justify-start gap-3" v-html="project.benefits"></div>
         </div>
 
-        <div class="flex flex-col justify-start gap-3 py-6" v-if="project.leadOrganization?.length > 0">
+        <div class="flex flex-col justify-start gap-3 py-6" v-if="project.leadOrganization">
           <h2 class="text-lg font-semibold">Lead Organizations</h2>
-          <ul class="grid grid-cols-2 gap-3">
-            <li v-for="org in project.leadOrganization" :key="org.organizationId">{{ org.organizationName }}</li>
+          <ul class="flex flex-col">
+            <li class="font-semibold">
+              {{ project.leadOrganization.organizationName }}
+              <span v-if="project.leadOrganization.acronym">
+                ({{ project.leadOrganization.acronym }})
+              </span>
+            </li>
+            <li>
+              {{ project.leadOrganization.city }}
+              <span v-if="project.leadOrganization?.country?.abbreviation">
+                ,&nbsp;{{ project.leadOrganization.country.abbreviation }}
+              </span>
+            </li>
           </ul>
         </div>
 
-        <h2 class="text-lg font-semibold">Members</h2>
+        <h2 class="text-lg font-semibold pt-6">Members</h2>
 
         <div class="flex flex-col justify-start gap-3 py-6" v-if="project.principalInvestigators?.length > 0">
           <PersonCard :members="project.principalInvestigators" role="Principal Investigator" />
-
         </div>
 
         <div class="flex flex-col justify-start gap-3 py-6" v-if="project.programManagers?.length > 0">
