@@ -68,20 +68,20 @@ useSeoMeta({
 
       <main class="flex mt-6 flex-col justify-between">
         <div class="flex flex-col justify-start">
-          <div class="flex flex-col md:flex-row">
-            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Start Date:</p>
+          <div class="flex flex-col md:flex-row mb-2 md:mb-0">
+            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 md:mb-2">Start Date:</p>
             <p class="text-sm">{{ project.startDateString }}</p>
           </div>
-          <div class="flex flex-col md:flex-row">
-            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">End Date:</p>
+          <div class="flex flex-col md:flex-row mb-2 md:mb-0">
+            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 md:mb-2">End Date:</p>
             <p class="text-sm">{{ project.endDateString }}</p>
           </div>
-          <div class="flex flex-col md:flex-row">
-            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Total views:</p>
+          <div class="flex flex-col md:flex-row mb-2 md:mb-0">
+            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 md:mb-2">Total views:</p>
             <p class="text-sm">{{ project.viewCount }}</p>
           </div>
-          <div class="flex flex-col md:flex-row">
-            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 mb-2">Release Status:</p>
+          <div class="flex flex-col md:flex-row mb-2 md:mb-0">
+            <p class="text-sm md:pr-1 tracking-tight font-semibold text-gray-700 md:mb-2">Release Status:</p>
             <p :class="cn(
               'text-sm',
               project.releaseStatusString === 'Released' && 'text-green-800',
