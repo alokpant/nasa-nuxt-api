@@ -1,5 +1,6 @@
 import { defineEventHandler, parseCookies } from 'h3';
 import { ProjectDetail } from '~/types/ProjectDetail';
+import { createError } from 'h3';
 
 const apiBody = () => ({
   headers: {

@@ -3,7 +3,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { H3Event, parseCookies, defineEventHandler } from 'h3';
 import projectsHandler, { getProjectDetails } from '@/server/api/projects';
-import { ProjectDetail } from '@/types/ProjectDetail';
+import { ProjectDetail as MOCK_PROJECTS } from '@/tests/fixtures/ProjectDetail';
 
 // Mock environment variables
 const MOCK_API_KEY = 'test-api-key';
@@ -19,6 +19,7 @@ const mockedFetch = fetch as vi.Mock;
 vi.mock('h3', () => ({
   parseCookies: vi.fn(),
   defineEventHandler: vi.fn((handler) => handler),
+  createError: vi.fn(),
 }));
 
 const mockParseCookies = parseCookies as vi.Mock;
@@ -38,17 +39,6 @@ const MOCK_COOKIE_DATA = {
   perPage: '10',
   currentPage: '1',
 }
-
-const MOCK_PROJECTS = [
-  {
-    projectId: '1',
-    title: 'Project 1',
-  },
-  {
-    projectId: '2',
-    title: 'Project 2',
-  },
-] as ProjectDetail[];
 
 const MOCK_PROJECT_DETAIL = {
   projectId: '1',
