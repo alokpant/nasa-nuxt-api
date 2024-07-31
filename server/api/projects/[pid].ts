@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     }
   });
   
-  if (!response.ok) {
+  if (response.ok) {
     throw createError({
       statusCode: response.status,
       statusMessage: `Failed to fetch project: ${pid}`

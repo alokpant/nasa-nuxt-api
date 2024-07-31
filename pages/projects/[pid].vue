@@ -62,7 +62,7 @@ const { toast } = useToast()
     v-if="!settingsStore.isLoading"
   >
     <div class="flex flex-col"
-      v-if="project"
+      v-if="project?.title"
       data-test-id="project-page-content"
     >
       <header class="flex flex-col mt-6 justify-between">
@@ -145,8 +145,8 @@ const { toast } = useToast()
     <div
       v-else
       data-test-id="project-page-not-found"
-      class="flex flex-col justify-start items-center content-start w-full h-[100px] pt-6">
-      <h3 class="text-sm font-semibold">Project not found</h3>
+      class="flex flex-col justify-start items-start content-start w-full h-[100px] pt-6">
+      <h3 class="text-lg font-semibold">Project not found</h3>
     </div>
   </div>
 
