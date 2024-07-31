@@ -12,22 +12,15 @@ const settingsStore = useSettingsStore();
 const project = ref({});
 
 /* computed */
-const lastUpdatedAt = computed(() => (new Date(project.value?.lastUpdated)).toLocaleDateString())
+const lastUpdatedAt = computed(() => project.value?.lastUpdated)
+// const lastUpdatedAt = computed(() => (new Date(project.value?.lastUpdated)).toLocaleDateString())
 
 /* methods */
 onMounted(async () => {
   settingsStore.setIsLoading(true)
   const pid = useRoute().params.pid;
   try {
-    const { error, project } = await $fetch(`/api/projects/${pid}`);
-    if (error.value) {
-      throw createError({
-        ...error.value,
-        statusMessage: error.statusMessage,
-        fatal: false
-      });
-    }
-    project.value = await response.json()
+    project.value = await $fetch(`/api/projects/${pid}`);
   } catch (error) {
     toast({
       title: 'Something went wrong',
@@ -50,7 +43,6 @@ useSeoMeta({
 
 const { toast } = useToast()
 </script>
-
 
 <template>
   <div class='flex flex-col'>

@@ -28,20 +28,9 @@ const fetchProjects = async () => {
   projectsStore.setProjects([])
   
   try {
-    const { error, projectsWithDetails, totalCount } = await $fetch('/api/projects');
-    
-    if (error?.value) {
-      throw createError({
-        ...error.value,
-        statusMessage: error.statusMessage,
-        fatal: false
-      });
-    }
-
+    const { projectsWithDetails, totalCount } = await $fetch('/api/projects');
     projects.value = projectsWithDetails
-    console.log(projectsWithDetails)
     await settingsStore.setTotalResults(totalCount)
-
   } catch (error) {
     toast({
       title: 'Something went wrong',
