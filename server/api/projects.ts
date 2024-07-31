@@ -37,6 +37,17 @@ export const getProjectDetails = async (project: ProjectDetail): Promise<Project
   if (!response.ok) {
     throw new Error(`Failed to fetch project: ${project.projectId}`);
   }
+  
+  // TODO: since we do not need all the information from project,
+  // additional step that can be taken is to create a transformer function
+  // which takes the current data and only returns the data that is needed.
+  // Since there is no redis cache, this could help reduce the data size that
+  // needs to be saved on the cookies.
+  // The advantage of this approach is that when we view individual project
+  // details, we can get the data from the cache instead of making a new
+  // request to the API.
+  // This may not work when big perPage is selected, but for 12 it could work
+  // which will help to improve performance.
   const result = await response.json();
   const resultWithLastFetched = { ...result.project, lastFetched: new Date().toISOString() };
 
