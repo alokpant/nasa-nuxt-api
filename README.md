@@ -40,66 +40,10 @@ https://github.com/user-attachments/assets/170334e1-c917-4663-8f57-e23811eb14b6
 Here is the layout of the app:
 
 ### Main page
+![Screenshot 2024-07-31 104914](https://github.com/user-attachments/assets/7e1ab70b-eb9f-4bf4-8373-4e588a215039)
 
-+--------------------------------------------------------+
-|                  NASA TechPort Projects                |
-+--------------------------------------------------------+
-| [Header]                                               |
-| NASA TechPort Projects                                 |
-+--------------------------------------------------------+
-| [Filters]                                              |
-| - Date Picker: [Last Update Since]               |
-| - Items per page: [12] [24] [48]                       |
-+--------------------------------------------------------+
-| [Pagination]                                           |
-| < Previous Page | 1 | 2 | 3 | ... | Next Page >        |
-+--------------------------------------------------------+
-| [Loading Indicator - if loading]                       |
-|                                                        |
-| [Project List]                                         |
-| - Project 1                                            |
-|   - Start Date: YYYY-MM-DD                             |
-|   - End Date: YYYY-MM-DD                               |
-|                                                        |
-| - Project 2                                            |
-|   - Start Date: YYYY-MM-DD                             |
-|   - End Date: YYYY-MM-DD                               |
-|                                                        |
-| - ...                                                  |
-+--------------------------------------------------------+
-| [Pagination]                                           |
-| < Previous Page | 1 | 2 | 3 | ... | Next Page >        |
-+--------------------------------------------------------+
-
-### Project detail page
-
-+--------------------------------------------------------+
-| [List Button]                                          |
-| < Back to Projects                                     |
-| < Home button                                          |
-+--------------------------------------------------------+
-| [Header]                                               |
-| Project Title                                          |
-+--------------------------------------------------------+
-| [Project Details]                                      |
-| - Description: Detailed description of the project.    |
-|                                                        |
-| - Organizations                                        |
-|   - Lead Organization: Organization Name               |
-|   - Supporting Organization: Organization Name         |
-|                                                        |
-| - Contacts                                             |
-|   - Name: Contact Person 1 - Role                      |
-|   - Name: Contact Person 2 - Role                      |
-|                                                        |
-| - Start Date: YYYY-MM-DD                               |
-| - End Date: YYYY-MM-DD                                 |
-| - Total Views: Number of views                         |
-| - Release Status: Status Text (e.g., Released)         |
-| - Website: URL                                         |
-| - Last Updated: YYYY-MM-DD                             |
-| - Benefits: List of Benefits                           |
-+--------------------------------------------------------+
+### Project Detail page
+![Screenshot 2024-07-31 104933](https://github.com/user-attachments/assets/343d9950-55e6-4e06-bebb-8319835d1980)
 
 ### Codesandbox
 
