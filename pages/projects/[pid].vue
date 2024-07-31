@@ -6,8 +6,8 @@ import PersonCard from '@/components/card/PersonCard.vue'
 import { House as HouseIcon, ArrowLeft as ArrowLeftIcon } from 'lucide-vue-next'
 import PageLoading from '@/components/loader/PageLoading.vue'
 import useSettingsStore from '@/stores/settings'
+import { useToast } from '@/components/ui/toast/use-toast'
 
-const route = useRoute();
 const settingsStore = useSettingsStore();
 const project = ref({});
 
@@ -19,11 +19,21 @@ onMounted(async () => {
   settingsStore.setIsLoading(true)
   const pid = useRoute().params.pid;
   try {
-    const response = await fetch(`/api/projects/${pid}`);
+    const { error, project } = await $fetch(`/api/projects/${pid}`);
+    if (error.value) {
+      throw createError({
+        ...error.value,
+        statusMessage: error.statusMessage,
+        fatal: false
+      });
+    }
     project.value = await response.json()
-    console.log('invidiual project', project.value)
   } catch (error) {
-    console.log(error)
+    toast({
+      title: 'Something went wrong',
+      description: error.statusMessage,
+      type: 'background'
+    });
   } finally {
     settingsStore.setIsLoading(false)
   }
@@ -37,6 +47,8 @@ useSeoMeta({
   ogImage: "https://techport.nasa.gov/images/NASA-Logo.png",
   twitterCard: 'summary_large_image',
 })
+
+const { toast } = useToast()
 </script>
 
 

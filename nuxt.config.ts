@@ -10,6 +10,14 @@ export default defineNuxtConfig({
 
   css: ['@/assets/css/tailwind.css'],
 
+  app: {
+    // https://v3.nuxtjs.org/api/configuration/nuxt-config/#layouttransition
+    layoutTransition: true,
+
+    // https://v3.nuxtjs.org/api/configuration/nuxt-config/#pagetransition
+    pageTransition: true,
+  },
+
   shadcn: {
     /**
      * Prefix for all the imported component

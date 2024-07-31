@@ -3,42 +3,55 @@ import useSettingsStore from '~/stores/settings'
 import useProjectsStore from '~/stores/projects'
 import CalendarContainer from '@/components/calendar/CalendarContainer.vue'
 import { ref } from 'vue'
-
 import {
   getLocalTimeZone,
   today,
 } from '@internationalized/date'
 // import { ProjectDetail } from '~/types/ProjectDetail.ts'
 import PageLoading from '@/components/loader/PageLoading.vue'
+import { useToast } from '@/components/ui/toast/use-toast'
 
 /* data */
 const settingsStore = useSettingsStore()
 const projectsStore = useProjectsStore()
 const projects = ref([])
 const perPageOptions = [12, 24, 48]
+const { toast } = useToast()
+
+/* methods */
+onMounted(async () => {
+  await fetchProjects();
+})
 
 const fetchProjects = async () => {
   settingsStore.setIsLoading(true)
   projectsStore.setProjects([])
   
   try {
-    const response = await fetch('/api/projects');
-    const { projectsWithDetails, totalCount } = await response.json()
+    const { error, projectsWithDetails, totalCount } = await $fetch('/api/projects');
+    
+    if (error?.value) {
+      throw createError({
+        ...error.value,
+        statusMessage: error.statusMessage,
+        fatal: false
+      });
+    }
+
     projects.value = projectsWithDetails
-    console.log(projectsWithDetails[0])
-    // await projectsStore.setProjects(projectsWithDetails)
+    console.log(projectsWithDetails)
     await settingsStore.setTotalResults(totalCount)
+
   } catch (error) {
-    console.log(error)
+    toast({
+      title: 'Something went wrong',
+      description: error.statusMessage,
+      type: 'background'
+    });
   } finally {
     settingsStore.setIsLoading(false)
   }
 }
-
-/* methods */
-onMounted(async () => {
-  await fetchProjects();
-})
 
 const handleCalendarDateUpdate = (date) => {
   settingsStore.setUpdatedSince(date.toLocaleString().substring(0, 10))
@@ -119,7 +132,7 @@ watch(
           v-if="projects.length > 0"
           class="h-full self-stretch">
           <ProjectCard :project="project" />
-      </li>
+        </li>
 
         <li v-else class="grid col-span-3 items-stretch content-stretch justify-center w-full leading-7 [&:not(:first-child)]:mt-6">
           For given calendar date, there are no projects.

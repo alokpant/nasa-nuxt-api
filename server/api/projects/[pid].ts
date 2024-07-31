@@ -8,9 +8,14 @@ export default defineEventHandler(async (event) => {
       'Authorization': `Bearer ${process.env.NASA_API_KEY}`
     }
   });
+  
   if (!response.ok) {
-    return { error: 'Failed to fetch projects' };
+    throw createError({
+      statusCode: response.status,
+      statusMessage: `Failed to fetch project: ${pid}`
+    });
   }
+  
   const data = await response.json();
   return data.project;
 });

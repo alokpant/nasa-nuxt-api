@@ -13,11 +13,15 @@ export default defineEventHandler(async (event) => {
   const response = await fetch(apiUrl, apiBody());
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch projects`);
+    throw createError({
+      statusCode: response.status,
+      statusMessage: 'Failed to fetch projects'
+    });
   }
 
   const result = await response.json();
   const projects: ProjectDetail[] = result.projects.slice(Number(currentPage) - 1, Number(perPage))
+
   if (projects.length === 0) {
     return { projectsWithDetails: [], totalCount: 0 };
   }
@@ -35,7 +39,10 @@ export const getProjectDetails = async (project: ProjectDetail): Promise<Project
   const response = await fetch(apiUrl, apiBody());
   
   if (!response.ok) {
-    throw new Error(`Failed to fetch project: ${project.projectId}`);
+    throw createError({
+      statusCode: response.status,
+      statusMessage: `Failed to fetch project: ${project.projectId}`
+    });
   }
   
   // TODO: since we do not need all the information from project,
