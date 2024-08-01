@@ -1,9 +1,14 @@
 # Nuxt 3 Minimal Starter
 
-The app fetches projects from [NASA TechPort API](https://techport.nasa.gov/help/articles/api).
+Developed a dynamic web application using Nuxt.js to explore and display detailed information about NASA projects from the [NASA TechPort API](https://techport.nasa.gov/help/articles/api).
 
-### Tech Stack
-Nuxt3 / Pinia / Vitest / Shadcn (Tailwind CSS)
+**Features**
+- Implemented data fetching from Nasa Techport API
+- Created a responsive UI for displaying project details, including descriptions, organizations, contacts, and various project metrics.
+- Ensured SEO optimization by dynamically setting meta tags based on project data.
+- Implemented data persistence using cookies to maintain state across sessions.
+
+**Tech Stack**: Nuxt.js, Vue.js, Pinia, NASA API, Shadcn (Tailwind CSS), Vitest
 
 ## Setup
 
