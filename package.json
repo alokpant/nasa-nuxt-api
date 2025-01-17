@@ -15,7 +15,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
-    "lucide-vue-next": "^0.462.0",
+    "lucide-vue-next": "^0.471.0",
     "nuxt": "^3.13.2",
     "pinia": "^2.3.0",
     "radix-vue": "^1.9.10",
